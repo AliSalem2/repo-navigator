@@ -1,4 +1,5 @@
 import anthropic
+import base64
 import time
 from rich.console import Console
 from src.tools import _get, GITHUB_API
@@ -33,22 +34,20 @@ OUTPUT FORMAT:
 """
 
 def fetch_readme(owner: str, repo: str) -> str | None:
-    for filename in ["README.md", "README.rst", "README.txt", "README"]:
-        import base64
-        url = f"{GITHUB_API}/repos/{owner}/{repo}/contents/{filename}"
-        r = _get(url)
-        if r.status_code == 200:
-            data = r.json()
-            if data.get("type") == "file":
-                try:
-                    content = base64.b64decode(data["content"]).decode("utf-8", errors="replace")
-                    lines = content.splitlines()
-                    if len(lines) > 400:
-                        content = "\n".join(lines[:400]) + f"\n\n[truncated — {len(lines)} total lines]"
-                    return content
-                except Exception:
-                    return None
-    return None
+    # GitHub's /readme endpoint auto-discovers the README regardless of filename or casing
+    url = f"{GITHUB_API}/repos/{owner}/{repo}/readme"
+    r = _get(url)
+    if r.status_code != 200:
+        return None
+    data = r.json()
+    try:
+        content = base64.b64decode(data["content"]).decode("utf-8", errors="replace")
+        lines = content.splitlines()
+        if len(lines) > 400:
+            content = "\n".join(lines[:400]) + f"\n\n[truncated — {len(lines)} total lines]"
+        return content
+    except Exception:
+        return None
 
 def compare_with_readme(owner: str, repo: str, onboarding_doc: str) -> str:
     console.print("[dim]Fetching README for comparison...[/dim]")
