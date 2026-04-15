@@ -4,6 +4,8 @@ An AI agent that understands any GitHub codebase by reading source code — not 
 
 Point it at a repo. It autonomously explores the codebase, traces call paths, identifies patterns, and produces a structured onboarding document. It deliberately ignores the README so it can tell you what the code *actually* does, not what the author claims it does.
 
+![demo](demo.gif)
+
 ```bash
 python main.py --repo https://github.com/pallets/click --output onboarding.md --compare
 ```
