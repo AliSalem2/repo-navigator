@@ -95,6 +95,8 @@ python api.py
 
 ## API
 
+Live endpoint: `https://repo-navigator-724060547545.europe-west1.run.app`
+
 ```http
 POST /analyse
 Content-Type: application/json
