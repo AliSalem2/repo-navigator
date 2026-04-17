@@ -52,7 +52,7 @@ Every run produces a structured markdown document:
 ## Setup
 
 ```bash
-git clone https://github.com/your-username/repo-navigator
+git clone https://github.com/AliSalem2/repo-navigator
 cd repo-navigator
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
@@ -114,21 +114,9 @@ GET /health
 
 ---
 
-## Deploy to Cloud Run
-
-```bash
-gcloud run deploy repo-navigator \
-  --source . \
-  --region europe-west1 \
-  --set-env-vars ANTHROPIC_API_KEY=your_key \
-  --allow-unauthenticated
-```
-
----
-
 ## Cost
 
-Each run costs approximately **$0.05–0.20** depending on repo size, using Claude Sonnet. A typical analysis of a medium-sized repo (like `pallets/click`) runs in under 2 minutes.
+Each run costs approximately **$0.05–0.20** depending on repo size, using Claude Sonnet. A typical analysis of a medium-sized repo runs in under 2 minutes.
 
 ---
 
@@ -139,13 +127,3 @@ Each run costs approximately **$0.05–0.20** depending on repo size, using Clau
 - **FastAPI** — REST wrapper for deployment
 - **Rich** — terminal output
 - **Cloud Run** — serverless deployment target
-
----
-
-## Project status
-
-Session 1 — core agent loop ✓  
-Session 2 — README comparison, context trimming, FastAPI wrapper ✓  
-Session 3 — polish, deployment ✓  
-
-Planned: streaming output, private repo support via GitHub App auth, frontend UI
